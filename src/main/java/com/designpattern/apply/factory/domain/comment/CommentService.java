@@ -1,27 +1,28 @@
 package com.designpattern.apply.factory.domain.comment;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 
-@Service
-@RequiredArgsConstructor
-public class CommentService {
+public abstract class CommentService {
 
-    private final CommentRepository commentRepository;
-    private final RepositoryFactory repositoryFactory;
+    CommentRepository commentRepository;
+    CommentType commentType;
 
 
     public List<Comment> getCommentList(CommentType commentType, Long typesId) {
-        repositoryFactory.getRepository(commentType)
+        getTypesRepository()
                 .checkTypesId(typesId);
         return commentRepository.findAllByCommentTypeAndTypesId(commentType, typesId);
     }
 
     public Comment saveComment(Comment comment) {
-        repositoryFactory.getRepository(comment.getCommentType())
+        getTypesRepository()
                 .addCommentCount(comment.getTypesId());
         return commentRepository.save(comment);
     }
+
+    public CommentType getCommentType() {
+        return commentType;
+    }
+
+    abstract public TypesRepository getTypesRepository();
 }
