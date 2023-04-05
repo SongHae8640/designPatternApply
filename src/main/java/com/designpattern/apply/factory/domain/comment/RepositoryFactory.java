@@ -1,21 +1,21 @@
 package com.designpattern.apply.factory.domain.comment;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.Map;
+
 @Component
-@RequiredArgsConstructor
 public class RepositoryFactory {
 
-    private final TypesDrinkRepository typesDrinkRepository;
-    private final TypesBoardRepository typesBoardRepository;
+    private final Map<CommentType, TypesRepository> repositoryMap;
+
+    public RepositoryFactory(List<TypesRepository> typesRepositoryList) {
+        this.repositoryMap = typesRepositoryList.stream()
+                .collect(java.util.stream.Collectors.toMap(TypesRepository::getCommentType, typesRepository -> typesRepository));
+    }
 
     public TypesRepository getRepository(CommentType commentType) {
-        if (commentType == CommentType.DRINK) {
-            return typesDrinkRepository;
-        } else if (commentType == CommentType.BOARD) {
-            return typesBoardRepository;
-        }
-        throw new IllegalArgumentException("Invalid CommentType: " + commentType);
+        return repositoryMap.get(commentType);
     }
 }

@@ -1,16 +1,19 @@
 package com.designpattern.apply.factory.domain.comment;
 
 import com.designpattern.apply.factory.domain.board.BoardRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.NoSuchElementException;
 
 @Component
-@RequiredArgsConstructor
-public class TypesBoardRepository implements TypesRepository {
+public class TypesBoardRepository extends TypesRepository {
 
     private final BoardRepository boardRepository;
+
+    public TypesBoardRepository(BoardRepository boardRepository) {
+        this.boardRepository = boardRepository;
+        this.commentType = CommentType.BOARD;
+    }
 
     @Override
     public void checkTypesId(Long typesId) {

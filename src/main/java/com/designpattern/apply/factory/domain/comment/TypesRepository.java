@@ -1,6 +1,10 @@
 package com.designpattern.apply.factory.domain.comment;
 
-public interface TypesRepository {
-    void checkTypesId(Long typesId);
-    void addCommentCount(Long typesId);
+public abstract class TypesRepository {
+    CommentType commentType;
+    abstract void checkTypesId(Long typesId);
+    abstract void addCommentCount(Long typesId);
+    CommentType getCommentType() {
+        return commentType;
+    }
 }

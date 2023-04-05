@@ -1,15 +1,18 @@
 package com.designpattern.apply.factory.domain.comment;
 
 import com.designpattern.apply.factory.domain.drink.DrinkRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.NoSuchElementException;
 
 @Component
-@RequiredArgsConstructor
-public class TypesDrinkRepository implements TypesRepository {
+public class TypesDrinkRepository extends TypesRepository {
     private final DrinkRepository drinkRepository;
+
+    public TypesDrinkRepository(DrinkRepository drinkRepository) {
+        this.drinkRepository = drinkRepository;
+        this.commentType = CommentType.DRINK;
+    }
 
     @Override
     public void checkTypesId(Long typesId) {
